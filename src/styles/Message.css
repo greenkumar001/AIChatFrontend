@@ -1,0 +1,29 @@
+.message {
+  display: flex;
+}
+
+.message.user {
+  justify-content: flex-end;
+}
+
+.message.user .bubble {
+  background: #1976d2;
+  color: white;
+  border-radius: 15px 15px 0 15px;
+}
+
+.message.bot {
+  justify-content: flex-start;
+}
+
+.message.bot .bubble {
+  background: #eee;
+  color: black;
+  border-radius: 15px 15px 15px 0;
+}
+
+.bubble {
+  padding: 8px 12px;
+  max-width: 70%;
+  word-wrap: break-word;
+}
