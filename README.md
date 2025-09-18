@@ -1,70 +1,142 @@
-# Getting Started with Create React App
+📰 Full-Stack News Chatbot with Qdrant + Gemini/OpenAI
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a full-stack AI chatbot where users can interact with a knowledge base of news articles. It uses React.js for the frontend, Node.js + Express for the backend, Redis for caching, and Qdrant for vector search with embeddings generated from Gemini (Google AI) or OpenAI.
 
-## Available Scripts
+🚀 Features
 
-In the project directory, you can run:
+✅ Real-time chat interface (React.js)
 
-### `npm start`
+✅ REST API (Express.js backend)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+✅ Embedding generation using Gemini API or OpenAI API
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+✅ Vector similarity search with Qdrant
 
-### `npm test`
+✅ Caching with Redis
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+✅ Automatic creation of news_collection in Qdrant
 
-### `npm run build`
+✅ Auto-load of news articles into Qdrant on startup
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+📂 Project Structure
+project/
+│── backend/
+│   ├── src/
+│   │   ├── routes/       # Express routes
+│   │   ├── services/     # Qdrant + Embedding services
+│   │   └── server.js     # Main backend entry
+│   ├── package.json
+│   └── .env
+│
+│── frontend/
+│   ├── src/
+│   │   ├── components/   # React components (ChatWindow, MessageList, etc.)
+│   │   └── App.js
+│   ├── package.json
+│   └── .env
+│
+└── README.md
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+⚙️ Tech Stack
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Frontend
 
-### `npm run eject`
+React.js (with create-react-app)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Axios for API calls
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+WebSocket for live chat updates
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Backend
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Node.js + Express.js
 
-## Learn More
+Redis (message cache / history)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Qdrant (vector database for semantic search)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Gemini / OpenAI for embeddings & responses
 
-### Code Splitting
+🔧 Setup Instructions
+1️⃣ Clone Repository
+git clone https://github.com/your-username/news-chatbot.git
+cd news-chatbot
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+2️⃣ Backend Setup
+cd backend
+npm install
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Create .env in backend/:
 
-### Making a Progressive Web App
+PORT=4000
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+# Choose one provider:
+GEMINI_API_KEY=your_google_ai_api_key_here
+# or
+OPENAI_API_KEY=your_openai_api_key_here
 
-### Advanced Configuration
+QDRANT_URL=https://your-cluster-id.gcp.cloud.qdrant.io:6333
+QDRANT_API_KEY=your_qdrant_api_key
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+REDIS_URL=redis://localhost:6379
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Run backend:
 
-### `npm run build` fails to minify
+npm run dev
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+Backend will auto-create news_collection in Qdrant.
+
+3️⃣ Frontend Setup
+cd frontend
+npm install
+
+
+Create .env in frontend/:
+
+REACT_APP_API_URL=http://localhost:4000
+
+
+Run frontend:
+
+npm start
+
+🧠 How It Works
+
+User sends a chat message from the React app.
+
+Backend generates an embedding for the message.
+
+Embedding is searched in Qdrant (news_collection).
+
+Relevant news articles are retrieved.
+
+Gemini/OpenAI generates a response using context from the articles.
+
+Response is cached in Redis & sent back to frontend.
+
+🛠 Troubleshooting
+
+500 Internal Server Error → Check backend logs, may be due to missing API key.
+
+429 Quota exceeded → Your Gemini key hit free limits. Switch to OpenAI or enable billing.
+
+404 Collection not found → Restart backend, it auto-creates news_collection.
+
+Redis connection error → Ensure Redis is running locally (redis-server).
+
+📌 Roadmap
+
+ Authentication & user accounts
+
+ Admin panel for uploading news
+
+ Support for multiple collections (sports, finance, etc.)
+
+ Deploy on cloud (Render / Vercel + Railway)
+
+📝 License
+
+MIT License © 2025 Your Name
